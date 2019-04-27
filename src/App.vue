@@ -3,13 +3,10 @@
     <h1>Witaj w systemie do zapisów na zajęcia</h1>
     <!--<p>{{ email }}</p>-->
 	<div v-if="isAuthenticated">
-		<p>Zalogowany jako {{ email }}</p>
-    	<button @click="logMeOut()">Wyloguj</button>
+		<login-page :username="email"
+					 @logout="logMeOut()">
+		</login-page>			 
     </div>
-    <!-- <div v-else>
-    	<input type="text" v-model="email">
-    	<button @click="logMeIn()">Zaloguj się</button>
-	</div> -->
 	<div v-else>
     	<form @submit.prevent="">
 		<login-form @login="logMeIn($event)"
@@ -29,7 +26,7 @@ import LoginForm from "./LoginForm";
 import LoginPage from "./LoginPage";
 
 export default {
-	components: {LoginForm},
+	components: {LoginForm, LoginPage},
 	data() {
 		  return {
 		    email: 'mwo@agh.pl',
@@ -46,9 +43,9 @@ export default {
 			this.email = username;
 			this.isAuthenticated = true;
 		},
-		logMeOut() {
-			this.isAuthenticated = false;
+		logMeOut(username) {
 			this.email = '';
+			this.isAuthenticated = false;
 		}
 	}
 }
